@@ -2,9 +2,9 @@ import { PostDetailsPage } from '@/pages/PostDetailsPage';
 import { PostListPage } from '@/pages/PostListPage';
 import { ROUTER_PATHS } from '@/shared/constants/routes';
 import { RootLayout } from '@/widgets/root-layout';
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: ROUTER_PATHS.POST_LIST,
     element: <RootLayout />,

@@ -15,7 +15,15 @@ export const postApi = baseApi.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems) => {
-        currentCache.push(...newItems);
+        const updatedCache = new Set(currentCache.map((item) => item.id));
+        newItems.forEach((item) => {
+          if (!updatedCache.has(item.id)) {
+            currentCache.push(item);
+            updatedCache.add(item.id);
+          }
+        });
+        return currentCache;
+        // currentCache.push(...newItems);
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;

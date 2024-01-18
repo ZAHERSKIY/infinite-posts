@@ -36,7 +36,7 @@ export const PostList = () => {
         return (
           <PostContainer>
             <Post
-              key={post.id}
+              key={`${post.id}-${index}`}
               post={post}
               actionSlot={<ViewPostButton postId={post.id} />}
             />

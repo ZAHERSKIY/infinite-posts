@@ -1,9 +1,11 @@
-import { useGetPostByIdQuery } from '@/entities/post';
+import { postApi } from '@/entities/post';
 import { BackButton } from '@/features';
 import { Body, PostContainer, Title } from './styled';
 
 export const PostDetails = ({ postId }: { postId: number }) => {
   const isValidPostId = !isNaN(postId) && postId > 0;
+
+  const { useGetPostByIdQuery } = postApi;
 
   const {
     data: post,

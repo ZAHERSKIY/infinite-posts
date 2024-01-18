@@ -1,4 +1,4 @@
-import { Post, PostType, useGetAllPostsQuery } from '@/entities/post';
+import { Post, PostType, postApi } from '@/entities/post';
 import { ViewPostButton } from '@/features';
 import { useEffect, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
@@ -15,6 +15,8 @@ const limit = 10;
 export const PostList = () => {
   const [page, setPage] = useState(1);
 
+  const { useGetAllPostsQuery } = postApi;
+
   const {
     data: posts,
     isFetching,
@@ -22,7 +24,7 @@ export const PostList = () => {
     isError,
   } = useGetAllPostsQuery({ limit, page });
 
-  //   const [initialIndex, setInitialIndex] = useState(0);
+  //   const loader = useInfiniteScroll(isFetching, setPage)
 
   useEffect(() => {
     if (posts && posts.length > 0) {
@@ -49,6 +51,16 @@ export const PostList = () => {
     }
   };
 
+  const getIndex = () => {
+    const savedIndex = sessionStorage.getItem('lastViewedPostIndex');
+
+    if (savedIndex) {
+      return +savedIndex;
+    }
+
+    return 0;
+  };
+
   const renderItemContent = (index: number, post: PostType) => {
     return (
       <PostContainer>
@@ -61,19 +73,22 @@ export const PostList = () => {
     );
   };
 
+  const footer = () => {
+    return isFetching ? (
+      <div
+        style={{
+          padding: '1rem',
+          textAlign: 'center',
+        }}
+      >
+        Loading...
+      </div>
+    ) : null;
+  };
+
   if (isLoading) return <div>Загрузка...</div>;
   if (isError) return <div>Ошибка загрузки поста</div>;
   if (!posts) return <div>Пост не найден</div>;
-
-  const getIndex = () => {
-    const savedIndex = sessionStorage.getItem('lastViewedPostIndex');
-
-    if (savedIndex) {
-      return +savedIndex;
-    }
-
-    return 0;
-  };
 
   return (
     <Virtuoso
@@ -83,18 +98,7 @@ export const PostList = () => {
       endReached={loadMorePosts}
       itemContent={renderItemContent}
       components={{
-        Footer: () => {
-          return isFetching ? (
-            <div
-              style={{
-                padding: '1rem',
-                textAlign: 'center',
-              }}
-            >
-              Loading...
-            </div>
-          ) : null;
-        },
+        Footer: footer,
       }}
     />
   );

@@ -6,7 +6,7 @@ export const PostContainer = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 20px;
-  max-width: 600px; // Большая ширина для подробной информации
+  max-width: 600px;
 `;
 
 export const Title = styled.h1`

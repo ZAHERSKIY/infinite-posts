@@ -23,7 +23,6 @@ export const postApi = baseApi.injectEndpoints({
           }
         });
         return currentCache;
-        // currentCache.push(...newItems);
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;
@@ -37,5 +36,3 @@ export const postApi = baseApi.injectEndpoints({
   }),
   overrideExisting: false,
 });
-
-export const { useGetAllPostsQuery, useGetPostByIdQuery } = postApi;
